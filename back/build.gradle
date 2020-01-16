@@ -7,12 +7,13 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     // Apply the java plugin to add support for Java
     id 'java'
 
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
-
     id 'war'
     id 'ear'
     id 'eclipse'
@@ -23,27 +24,29 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
-}
-
-dependencies {
-   compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.25.1'
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:28.0-jre'
-   // compile group: 'javax.ejb', name: 'javax.ejb-api', version: '3.2'
-    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
-
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    mavenCentral()
 }
 
 application {
-    // Define the main class for the application.
-    mainClassName = 'su.fontru.App'
+  mainClassName = "su.fontru.RestAPI"
+}
+
+group = "su.fontru"
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    runtimeOnly 'com.h2database:h2'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // implementation 'com.google.guava:guava:28.0-jre'
+    // compile group: 'javax.ejb', name: 'javax.ejb-api', version: '3.2'
 }
 
 war { 
   from 'src/main/java' 
-  webXml = file('src/main/WEB-INF/web.xml')
 }
 
 ear {
