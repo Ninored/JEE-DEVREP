@@ -1,5 +1,6 @@
 package su.fontru.model;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,21 +17,4 @@ public class Utilisateur {
   
 
   private String name;
-
-  public Utilisateur() {
-    this.name = "test";
-  }
-
-  public Utilisateur(String n) {
-    this.name = n;
-  }
-
-  public void setName(String n) {
-    this.name = n;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
 }
