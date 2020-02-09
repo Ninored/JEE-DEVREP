@@ -4,8 +4,6 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-
-
 const conferences = [
   { title: "Conf 1", lien: "lien conf" },
   { title: "Conf 2", lien: "lien conf" },
