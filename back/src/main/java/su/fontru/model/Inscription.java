@@ -1,5 +1,7 @@
 package su.fontru.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +28,8 @@ public class Inscription {
   private String country;
   private String email;
   private String phone;
-  private String inscriptionType;
+  
+  @OneToMany
+  private List<InscriptionType> inscriptionType;
 
 }
