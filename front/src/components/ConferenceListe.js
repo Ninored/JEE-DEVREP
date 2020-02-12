@@ -5,21 +5,21 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 const conferences = [
-  { title: "Conf 1", lien: "lien conf" },
-  { title: "Conf 2", lien: "lien conf" },
-  { title: "Conf 3", lien: "lien conf" },
-  { title: "Conf 4", lien: "lien conf" },
-  { title: "Conf 5", lien: "lien conf" },
-  { title: "Conf 6", lien: "lien conf" },
-  { title: "Conf 7", lien: "lien conf" },
-  { title: "Conf 8", lien: "lien conf" },
+  { id: 1, title: "Conf 1", lien: "lien conf" },
+  { id: 2, title: "Conf 2", lien: "lien conf" },
+  { id: 3, title: "Conf 3", lien: "lien conf" },
+  { id: 4, title: "Conf 4", lien: "lien conf" },
+  { id: 5, title: "Conf 5", lien: "lien conf" },
+  { id: 6, title: "Conf 6", lien: "lien conf" },
+  { id: 7, title: "Conf 7", lien: "lien conf" },
+  { id: 8, title: "Conf 8", lien: "lien conf" },
 ]
 
 const GenerateRow = () => {
   return conferences.map( (v, idx) => { 
     return (
     <Col sm={4}>
-      <Card>
+      <Card id={v.id}>
       <Card.Body>
         <Card.Title>{v.title}</Card.Title>
         <Card.Text>
@@ -62,5 +62,6 @@ const ConferenceListe = () => {
   </Container>
   )
 }
+
 
 export default ConferenceListe

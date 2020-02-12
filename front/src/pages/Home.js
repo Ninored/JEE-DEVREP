@@ -1,16 +1,26 @@
 import React from 'react';
-import Carous from '../components/Carous';
-import ConferenceListe from '../components/ConferenceListe';
+import ConferenceGrid from '../components/ConferenceGrid';
 
-import Container from 'react-bootstrap/Container';
+import { Container, Image } from 'semantic-ui-react'
+
 import Header from '../components/Header'
 
-const Home = () => (
-  <Container>
-    <Header />
-    <Carous />
-    <ConferenceListe />
-  </Container>
-)
 
+const Home = (props) => {
+
+  console.log(props)
+
+  return (
+    <>
+      <Header />
+      <Container>
+        <Image src='https://via.placeholder.com/800x400'
+          centered
+          style={{marginTop: "1em"}}
+        />
+      </Container>
+      <ConferenceGrid />
+    </>
+  )
+}
 export default Home
