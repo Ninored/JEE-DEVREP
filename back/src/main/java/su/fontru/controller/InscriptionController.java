@@ -4,10 +4,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import su.fontru.model.Inscription;
@@ -19,16 +21,13 @@ public class InscriptionController {
 	@Autowired
     private InscriptionRepository repository;
 	
-	//private static final String template = "Hello, %s!";
-	//private final AtomicLong counter = new AtomicLong();
 
-	/*@GetMapping("/inscription")
-	public Inscription inscription() {
-		
-		
-		return new Inscription();
-	}*/
-	
+	@GetMapping("/inscription")
+    public Object[] getInscription() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    return authentication.getAuthorities().parallelStream().map(o -> o.getAuthority()).toArray();
+    }
+
 	@PostMapping("/inscription")
     Inscription createOrSaveInscription(@RequestBody Inscription inscription) {
         return repository.save(inscription);
@@ -37,12 +36,4 @@ public class InscriptionController {
 		*/
     }
 	
-	
-	/*@PostMapping(value = "/inscription")
-	public ResponseEntity<?> createCustomer(@RequestBody Inscription inscription) {
-
-		customerDAO.create(customer);
-
-		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
-	}*/
 }
