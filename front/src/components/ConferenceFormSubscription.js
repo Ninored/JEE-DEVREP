@@ -3,12 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import {
   Form,
-  Select,
-  Input,
   Button,
-  TextArea,
-  List,
-  Label
 } from 'semantic-ui-react'
 
 import { useForm, Controller } from 'react-hook-form'
