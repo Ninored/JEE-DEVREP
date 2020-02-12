@@ -3048,7 +3048,7 @@
   <commands xmi:id="_V6J3RD4SEeqz6YJc_gGkkw" elementId="org.eclipse.jdt.ui.edit.text.java.introduce.indirection" commandName="Introduce Indirection" description="Introduce an indirection to encapsulate invocations of a selected method" category="_V6BURD4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6J3RT4SEeqz6YJc_gGkkw" elementId="org.scalaide.refactoring.ExpandCaseClassBinding" commandName="Expand Case Class Binding" category="_V6AGPD4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6J3Rj4SEeqz6YJc_gGkkw" elementId="org.eclipse.papyrus.import.registered.package" commandName="Import Registered Package" description="Import Registered Package" category="_V6BURz4SEeqz6YJc_gGkkw"/>
-  <commands xmi:id="_V6J3Rz4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.cdo.security.ui.openEditor" commandName="Manage Security" category="_V5_fET4SEeqz6YJc_gGkkw"/>
+  <commands xmi:id="_V6J3Rz4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.cdo.su.fontru.security.ui.openEditor" commandName="Manage Security" category="_V5_fET4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6J3SD4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.ecp.emfstore.ui.commit" commandName="commit" category="_V6AtTD4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6J3ST4SEeqz6YJc_gGkkw" elementId="org.eclipse.papyrus.uml.service.types.StereotypeCreateCommand" commandName="Create a new Stereotype" description="Create a new Stereotype" category="_V6AGKT4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6J3Sj4SEeqz6YJc_gGkkw" elementId="org.eclipse.egit.ui.team.ReplaceWithRef" commandName="Replace with branch, tag, or reference" category="_V6AGQz4SEeqz6YJc_gGkkw"/>
@@ -3080,7 +3080,7 @@
   <commands xmi:id="_V6KeNT4SEeqz6YJc_gGkkw" elementId="org.eclipse.papyrus.validation.SelectAndValidateSubtreeCommand" commandName="SelectAndValidate" description="SelectAndValidate" category="_V6BURz4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6KeNj4SEeqz6YJc_gGkkw" elementId="org.eclipse.php.ui.edit.text.source.quickMenu" commandName="Show Source Quick Menu" description="Shows the source quick menu" category="_V6AGMz4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6KeNz4SEeqz6YJc_gGkkw" elementId="org.eclipse.rap.tools.launch.rwt.rwtLaunchShortcut.debug" commandName="Debug RWT Application" description="Debug RWT Application" category="_V6AGLT4SEeqz6YJc_gGkkw"/>
-  <commands xmi:id="_V6KeOD4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.cdo.security.ui.resetPassword" commandName="Reset Password" description="Reset the selected user's password. Must be an administrator to reset passwords." category="_V5_fET4SEeqz6YJc_gGkkw"/>
+  <commands xmi:id="_V6KeOD4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.cdo.su.fontru.security.ui.resetPassword" commandName="Reset Password" description="Reset the selected user's password. Must be an administrator to reset passwords." category="_V5_fET4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6KeOT4SEeqz6YJc_gGkkw" elementId="org.eclipse.papyrus.views.modelexplorer.resourceloading.LoadResource" commandName="Load" description="Load Resource containing this object" category="_V6BURz4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6KeOj4SEeqz6YJc_gGkkw" elementId="org.eclipse.m2m.qvt.oml.editor.ui.show.outline" commandName="Quick Outline" description="Show the quick outline for the editor input" category="_V6AGOD4SEeqz6YJc_gGkkw"/>
   <commands xmi:id="_V6KeOz4SEeqz6YJc_gGkkw" elementId="org.eclipse.papyrus.uml.diagram.component.command.manage.interfaces" commandName="Manage Provided Interfaces" description="Allows to manage easily provided Interfaces for a Port" category="_V6BURz4SEeqz6YJc_gGkkw"/>
@@ -5137,7 +5137,7 @@
   <addons xmi:id="_OuENQESaEeiAQ-my3lrC5g" elementId="org.eclipse.papyrus.infra.ui.fonts.addon.0" contributorURI="platform:/plugin/org.eclipse.papyrus.infra.ui.fonts" contributionURI="bundleclass://org.eclipse.papyrus.infra.ui.fonts/org.eclipse.papyrus.infra.ui.fonts.internal.addon.FontAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_V5_fED4SEeqz6YJc_gGkkw" elementId="org.springframework.tooling.ls.eclipse.gotosymbol.commands.category" name="STS4"/>
-  <categories xmi:id="_V5_fET4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.cdo.security.ui.management" name="CDO Security Management"/>
+  <categories xmi:id="_V5_fET4SEeqz6YJc_gGkkw" elementId="org.eclipse.emf.cdo.su.fontru.security.ui.management" name="CDO Security Management"/>
   <categories xmi:id="_V5_fEj4SEeqz6YJc_gGkkw" elementId="org.eclipse.mylyn.tasks.ui.commands" name="Task Repositories"/>
   <categories xmi:id="_V5_fEz4SEeqz6YJc_gGkkw" elementId="org.scala.tools.eclipse.search.commands" name="Search - Scala" description="Search - Scala"/>
   <categories xmi:id="_V6AGID4SEeqz6YJc_gGkkw" elementId="org.eclipse.mylyn.wikitext.context.ui.commands" name="Mylyn WikiText" description="Commands used for Mylyn WikiText"/>
