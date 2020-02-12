@@ -11,6 +11,7 @@ build_website:
   stage: build
   image: node:latest
   script:
+    - cd front
     - npm install
     - npm run build
   artifacts:
@@ -28,7 +29,7 @@ build_docker:
   script:
     - echo $CI_DEPLOY_USER
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CONTAINER_IMAGE
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/front/Dockerfile --destination $CONTAINER_IMAGE
 
 deploy_staging:
   stage: deploy_staging
