@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: devrep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devrep
+  template:
+    metadata:
+      labels:
+        app: devrep
+    spec:
+      containers:
+      - name: devrep
+        image: <CONTAINER_NAME>
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devrep-service
+spec:
+  selector:
+    app: devrep
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+--- 
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: devrep-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - host: <DOMAIN>
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: devrep-service
+          servicePort: 80

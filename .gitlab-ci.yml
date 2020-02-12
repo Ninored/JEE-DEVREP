@@ -1,0 +1,71 @@
+stages:
+  - build
+  - image
+  - deploy_staging
+  - deploy_prod
+
+variables:
+  CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+
+build_website:
+  stage: build
+  image: node:latest
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - public
+
+build_docker:
+  image: 
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  stage: image
+  only:
+    - tags
+    - master
+  script:
+    - echo $CI_DEPLOY_USER
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CONTAINER_IMAGE
+
+deploy_staging:
+  stage: deploy_staging
+  image: dtzar/helm-kubectl
+  variables:
+    KUBERNETES_NAMESPACE_OVERWRITE: devrep-staging
+  environment:
+    name: staging
+    url: https://devrep.staging.ninored.ovh
+  only:
+    - master
+  script:
+    - mkdir -p $HOME/.kube/
+    - echo -n $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+    - kubectl config view
+    - sed -i "s~<CONTAINER_NAME>~\"$CONTAINER_IMAGE\"~g" deployment.yaml
+    - sed -i "s~<DOMAIN>~devrep.staging.ninored.ovh~g" deployment.yaml
+    - sed -i "/cert-manager/d" deployment.yaml
+    - cat deployment.yaml
+    - kubectl apply -f deployment.yaml
+
+deploy_prod:
+  stage: deploy_prod
+  image: dtzar/helm-kubectl
+  variables:
+    KUBERNETES_NAMESPACE_OVERWRITE: devrep-prod
+  environment:
+    name: production
+    url: https://devrep.ninored.ovh
+  when: manual
+  only:
+    - tags
+    - master
+  script:
+    - mkdir -p $HOME/.kube/
+    - echo -n $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+    - kubectl config view
+    - sed -i "s~<CONTAINER_NAME>~\"$CONTAINER_IMAGE\"~g" deployment.yaml
+    - sed -i "s~<DOMAIN>~devrep.ninored.ovh~g" deployment.yaml
+    - kubectl apply -f deployment.yaml
