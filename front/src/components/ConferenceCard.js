@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 
 import {
   Card,
-  Button
+  Button,
+  Image
 } from 'semantic-ui-react'
 
 
@@ -20,6 +21,7 @@ const ConferenceCard = ({ conference: conf}) => {
 
   return(
     <Card>
+      <Image wrapped ui={false} src="https://via.placeholder.com/300x300" />
       <Card.Content>
         <Card.Header>{conf.title}</Card.Header>
         <Card.Description>{conf.description}</Card.Description>
