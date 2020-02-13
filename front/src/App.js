@@ -3,11 +3,10 @@ import{
   Route,
   BrowserRouter,
   Switch,
-  Redirect,
-  withRouter
 } from 'react-router-dom'
 
 import { useAppContext } from './context'
+import CheckedRoute from './tools/CheckedRoute'
 
 import Home from './pages/Home'
 import Conference from './pages/Conference'
@@ -16,8 +15,6 @@ import SubscriptionRegistered from './pages/SubscriptionRegistered'
 import Login from './pages/Login'
 import Admin from './pages/Admin'
 
-const CheckedRoute = withRouter(({ condition, redirect, location, ...props}) => condition(location) ? <Route {...props } /> : <Redirect to={redirect} />
-)
 const App = (props) => { 
   const [ ctx , ] = useAppContext()
   return (
@@ -25,6 +22,9 @@ const App = (props) => {
       <Switch>
         <Route path="/conference/:id" exact component={Conference} />
         <Route path="/payment" exact componenet={Payment} />
+        <Route path="/" exact component={Home} />
+        <Route path="/login" exact component={Login} />
+
         <CheckedRoute 
           condition={(location) => location.state && !location.state.fromSubscription }
           exact
@@ -33,14 +33,11 @@ const App = (props) => {
           component={SubscriptionRegistered}
         />
         <CheckedRoute
-          condition={() => ctx.authenticated }
-          extact
+          condition={() => ctx.authenticated}
           redirect='/login'
           path='/admin'
           component={Admin}
         />
-        <Route path="/" exact component={Home} />
-        <Route path="/login" exact component={Login} />
       </Switch>
     </BrowserRouter>
 )}

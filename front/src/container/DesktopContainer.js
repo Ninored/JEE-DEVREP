@@ -11,6 +11,8 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
+import { useAppContext } from '../context'
+
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
 
@@ -18,9 +20,9 @@ const getWidth = () => {
 }
 
 const DesktopContainer = ({ children, location }) => {
+  const [ ctx ,] = useAppContext()
   return(
-    <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
-      
+    <Responsive style={{ height: '100%'}} getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
       <Visibility
       >
         <Segment
@@ -36,6 +38,7 @@ const DesktopContainer = ({ children, location }) => {
           >
             <Container>
               <Menu.Item as={Link} to='/' active={ location.pathname === '/'}>Home</Menu.Item>
+              { ctx.authenticated && <Menu.Item as={Link} to='/admin' active={ location.pathname.startsWith('/admin')}>Admin</Menu.Item>}
               <Menu.Item position='right'>
                 <Button inverted as={Link} to='/login'>
                   Log in

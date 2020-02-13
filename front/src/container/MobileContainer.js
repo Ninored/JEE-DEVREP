@@ -24,6 +24,7 @@ const MobileContainer = ({ children, location }) => {
 
   return(
     <Responsive
+      style={{ height: '100%'}}
       as={Sidebar.Pushable}
       getWidth={getWidth}
       maxWidth={Responsive.onlyMobile.maxWidth}

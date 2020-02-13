@@ -11,7 +11,7 @@ const Home = (props) => {
 
   return (
     <ResponsiveContainer>
-      <Container centered>
+      <Container>
         <Image src='https://via.placeholder.com/800x400'
           centered
           style={{marginTop: "1em"}}
