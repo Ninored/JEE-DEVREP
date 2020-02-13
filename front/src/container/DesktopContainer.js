@@ -37,13 +37,26 @@ const DesktopContainer = ({ children, location }) => {
             pointing
           >
             <Container>
-              <Menu.Item as={Link} to='/' active={ location.pathname === '/'}>Home</Menu.Item>
-              { ctx.authenticated && <Menu.Item as={Link} to='/admin' active={ location.pathname.startsWith('/admin')}>Admin</Menu.Item>}
-              <Menu.Item position='right'>
-                <Button inverted as={Link} to='/login'>
-                  Log in
-                </Button>
-              </Menu.Item>
+              <Menu.Item 
+                as={Link} 
+                to='/' 
+                active={ location.pathname === '/'}
+                content='Home'/>
+              { ctx.authenticated && 
+              <Menu.Item 
+                as={Link} 
+                to='/admin' 
+                active={ location.pathname.startsWith('/admin')}
+                content='Admin'/>
+              }
+
+              { !ctx.authenticated && 
+                <Menu.Item position='right'>
+                  <Button inverted as={Link} to='/login'>
+                    Log in
+                  </Button>
+                </Menu.Item>
+              }
             </Container>
           </Menu>
         </Segment>

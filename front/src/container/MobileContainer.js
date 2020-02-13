@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { useAppContext } from '../context'
 
 import {
   Button,
@@ -19,6 +20,8 @@ const getWidth = () => {
 }
 
 const MobileContainer = ({ children, location }) => {
+
+  const [ ctx, ] = useAppContext()
 
   const [ sidebarVisible, setSidebarVisible ] = useState(false)
 
@@ -51,9 +54,11 @@ const MobileContainer = ({ children, location }) => {
               <Menu.Item onClick={() => { setSidebarVisible(true)}}>
                 <Icon name='sidebar' />
               </Menu.Item>
-              <Menu.Item position='right'>
-                <Button as={Link} to='/login' inverted content='Log in' />
-              </Menu.Item>
+              { !ctx.authenticated && 
+                <Menu.Item position='right'>
+                  <Button as={Link} to='/login' inverted content='Log in' />
+                </Menu.Item>
+              }
             </Menu>
           </Container>
         </Segment>
