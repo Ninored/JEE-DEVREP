@@ -32,7 +32,7 @@ build_docker:
     - master
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker build --pull -t $CONTAINER_IMAGE front/
+    - docker build -t $CONTAINER_IMAGE front/
     - docker push $CONTAINER_IMAGE
 
 deploy_staging:
