@@ -20,7 +20,7 @@ import {
 const ConferenceCard = ({ conference: conf}) => {
 
   return(
-    <Card>
+    <Card fluid>
       <Image wrapped ui={false} src="https://via.placeholder.com/300x300" />
       <Card.Content>
         <Card.Header>{conf.title}</Card.Header>

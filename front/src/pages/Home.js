@@ -3,24 +3,22 @@ import ConferenceGrid from '../components/ConferenceGrid';
 
 import { Container, Image } from 'semantic-ui-react'
 
-import Header from '../components/Header'
-
+import ResponsiveContainer from '../container/ResponsiveContainer'
 
 const Home = (props) => {
 
   console.log(props)
 
   return (
-    <>
-      <Header />
-      <Container>
+    <ResponsiveContainer>
+      <Container centered>
         <Image src='https://via.placeholder.com/800x400'
           centered
           style={{marginTop: "1em"}}
         />
       </Container>
       <ConferenceGrid />
-    </>
+    </ResponsiveContainer>
   )
 }
 export default Home

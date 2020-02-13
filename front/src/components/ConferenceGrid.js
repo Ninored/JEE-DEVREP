@@ -29,7 +29,7 @@ const ConferenceGrid = () => {
   )
 
   return (
-    <Grid container stackable columns={4} style={{...style}}>
+    <Grid container stretched stackable columns={4} style={{...style}}>
       { cc }
     </Grid>
   )

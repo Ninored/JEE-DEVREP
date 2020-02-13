@@ -13,7 +13,7 @@ const Login = () => {
       style={{ height: '100vh' }} 
       verticalAlign='middle'
     >
-      <Grid.Column computer={4}>
+      <Grid.Column mobile={12} computer={4}>
         <LoginForm />
       </Grid.Column>
     </Grid>
