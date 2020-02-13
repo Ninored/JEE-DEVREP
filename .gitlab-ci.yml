@@ -16,7 +16,7 @@ build_website:
     - npm run build
   artifacts:
     paths:
-      - public
+      - /front/public
 
 build_docker:
   image: 
