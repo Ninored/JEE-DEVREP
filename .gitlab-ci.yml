@@ -10,7 +10,7 @@ variables:
   DOCKER_HOST: tcp://docker:2375
 
 services:
-  - docker:19.03.01-dind
+  - docker:19.03.1-dind
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN
