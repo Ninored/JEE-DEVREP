@@ -5,6 +5,16 @@ stages:
   - deploy_prod
 
 variables:
+  DOCKER_HOST: tcp://docker:2375
+
+services:
+  - docker:19.03.01-dind
+
+before-script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN
+  - docker info
+
+variables:
   CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
 
 build_website:
@@ -24,12 +34,10 @@ build_docker:
     entrypoint: [""]
   stage: image
   only:
-    - tags
     - master
   script:
-    - echo $CI_DEPLOY_USER
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/front/Dockerfile --destination $CONTAINER_IMAGE
+    - docker build --pull -t $CONTAINER_IMAGE front/
+    - docker push $CONTAINER_IMAGE
 
 deploy_staging:
   stage: deploy_staging
