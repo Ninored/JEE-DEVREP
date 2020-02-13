@@ -31,7 +31,7 @@ build_docker:
   only:
     - master
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     - docker build --pull -t $CONTAINER_IMAGE front/
     - docker push $CONTAINER_IMAGE
 
