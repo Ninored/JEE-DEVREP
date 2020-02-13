@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:10 as build
 
 WORKDIR /app
 COPY package.json /usr/src/app/package.json
