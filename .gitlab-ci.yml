@@ -12,10 +12,6 @@ variables:
 services:
   - docker:19.03.1-dind
 
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN
-  - docker info
-
 variables:
   CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
 
@@ -35,6 +31,7 @@ build_docker:
   only:
     - master
   script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN
     - docker build --pull -t $CONTAINER_IMAGE front/
     - docker push $CONTAINER_IMAGE
 
