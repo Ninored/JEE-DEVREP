@@ -13,8 +13,8 @@ services:
   - docker:19.03.1-dind
 
 variables:
-  FRONT_CONTAINER_IMAGE: FRONT_${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
-  BACK_CONTAINER_IMAGE: BACK_${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+  FRONT_CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:front${CI_COMMIT_SHORT_SHA}
+  BACK_CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:back${CI_COMMIT_SHORT_SHA}
 
 build_website:
   stage: build
@@ -54,7 +54,7 @@ build_docker_back:
     - master
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker build -t $CONTAINER_IMAGE back/
+    - docker build -t $BACK_CONTAINER_IMAGE back/
     - docker push $BACK_CONTAINER_IMAGE
 
 deploy_staging:
