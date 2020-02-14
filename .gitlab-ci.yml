@@ -54,7 +54,7 @@ build_docker_back:
     - master
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker build -t $CONTAINER_IMAGE front/
+    - docker build -t $CONTAINER_IMAGE back/
     - docker push $BACK_CONTAINER_IMAGE
 
 deploy_staging:
