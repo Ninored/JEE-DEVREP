@@ -32,7 +32,7 @@ build_back:
   image: gradle:latest
   script:
     - cd back
-    - sed -i "s~spring.datasource.url.*~spring.datasource.url=jdbc:postgresql://db:5432/jee~g" back/src/main/resources/application.properties
+    - sed -i "s~spring.datasource.url.*~spring.datasource.url=jdbc:postgresql://db:5432/jee~g" src/main/resources/application.properties
     - gradle build
   artifacts:
     paths:
