@@ -74,7 +74,7 @@ deploy_staging:
     - sed -i "s~<FRONT_CONTAINER_NAME>~\"$FRONT_CONTAINER_IMAGE\"~g" deployment.yaml
     - sed -i "s~<BACK_CONTAINER_NAME>~\"$BACK_CONTAINER_IMAGE\"~g" deployment.yaml
     - sed -i "s~<DOMAIN>~devrep.staging.ninored.ovh~g" deployment.yaml
-    - sed -i "s~<APIDOMAIN>~devrep.api.staging.ninored.ovh~g" deployment.yaml
+    - sed -i "s~<APIDOMAIN>~devrep-api.staging.ninored.ovh~g" deployment.yaml
     - sed -i "/cert-manager/d" deployment.yaml
     - cat deployment.yaml
     - kubectl apply -f deployment.yaml

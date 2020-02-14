@@ -1,35 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
   Button,
   Form,
-  Segment
+  Segment,
+  Message
 } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useAppContext } from '../context'
-import { credentials } from '../services/api'
+import { credentials , api, API_LOGIN} from '../services/api'
 
 const LoginForm = ({ history }) => {
 
   const { handleSubmit, errors, control} = useForm()
+  const [ loginError, setLoginError ] = useState('')
   const [ ,dispatch] = useAppContext()
 
   const onSubmit = (values) => {
-    console.log(values)
-    dispatch({
-      type: 'loggedIn',
-      value: {
-        username: values.email,
-        password: values.password
-      }
+    api.post(API_LOGIN, {
+      username: values.email,
+      password: values.password
+    }).then( () => {
+       dispatch({ type: 'loggedIn' })
+      credentials.username = values.email
+      credentials.password = values.password
+    }).catch(err => {
+      console.log(err)
+        setLoginError('User not found')
     })
+    console.log(values)
+   
     credentials.usename = values.email
     credentials.password = values.password
     history.push('/admin')
   }
 
   return(
-    <Form size='large' onSubmit={handleSubmit(onSubmit)}>
+    <Form error={loginError !=='' } size='large' onSubmit={handleSubmit(onSubmit)}>
+      <Message
+        error
+        header="Connection failed"
+        content={loginError}
+      />
       <Segment stacked>
         <Controller 
           error={!!errors.email ?  errors.email.message : false } 
@@ -48,7 +60,7 @@ const LoginForm = ({ history }) => {
           }}
         />
         <Controller 
-          error={!!errors.email ?  errors.email.message : false } 
+          error={!!errors.password ?  errors.password.message : false } 
           as={Form.Input}
           control={control}
           name='password'
