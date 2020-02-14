@@ -23,11 +23,11 @@ const ConferenceCard = ({ conference: conf}) => {
     <Card fluid>
       <Image wrapped ui={false} src="https://via.placeholder.com/300x300" />
       <Card.Content>
-        <Card.Header>{conf.title}</Card.Header>
+        <Card.Header>{conf.name}</Card.Header>
         <Card.Description>{conf.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Button as={Link} to={`/conference/${conf.id}`}>Registration</Button>
+        <Button as={Link} to={`/subscription?uri=${conf._links.self.href}`}>Registration</Button>
       </Card.Content>
     </Card>
   )

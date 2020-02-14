@@ -20,7 +20,7 @@ const App = (props) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/conference/:id" exact component={Conference} />
+        <Route path="/subscription" component={Conference} />
         <Route path="/payment" exact componenet={Payment} />
         <Route path="/" exact component={Home} />
         <Route path="/login" exact component={Login} />

@@ -1,32 +1,28 @@
+
 package su.fontru.repositories;
 
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Repository;
 import su.fontru.model.Conference;
-
+import su.fontru.model.Subscription;
 import java.util.List;
 import java.util.Optional;
 
-/* REST available */
 @RepositoryRestResource
-public interface ConferenceRepository extends CrudRepository<Conference, Long> {
-    Optional<List<Conference>> findByName(String name);
-
-
-    @PreAuthorize("hasRole('ADMIN')")
+public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
     @Override
-    public <S extends Conference> S save(S entity);
-
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @Override
-    public <S extends Conference> Iterable<S> saveAll(Iterable<S> entities);
+    public <S extends Subscription> S save(S entity);
 
 
     @Override
-    public Optional<Conference> findById(Long aLong);
+    public <S extends Subscription> Iterable<S> saveAll(Iterable<S> entities);
+
+
+    @Override
+    public Optional<Subscription> findById(Long aLong);
 
 
     @Override
@@ -34,11 +30,11 @@ public interface ConferenceRepository extends CrudRepository<Conference, Long> {
 
 
     @Override
-    public Iterable<Conference> findAll();
+    public Iterable<Subscription> findAll();
 
 
     @Override
-    public Iterable<Conference> findAllById(Iterable<Long> longs);
+    public Iterable<Subscription> findAllById(Iterable<Long> longs);
 
 
     @Override
@@ -51,12 +47,12 @@ public interface ConferenceRepository extends CrudRepository<Conference, Long> {
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public void delete(Conference entity);
+    public void delete(Subscription entity);
 
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public void deleteAll(Iterable<? extends Conference> entities);
+    public void deleteAll(Iterable<? extends Subscription> entities);
 
 
     @PreAuthorize("hasRole('ADMIN')")

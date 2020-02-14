@@ -1,32 +1,31 @@
+
 package su.fontru.repositories;
 
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
-import su.fontru.model.Conference;
+import su.fontru.model.SubscriptionType;
 
-import java.util.List;
 import java.util.Optional;
 
 /* REST available */
 @RepositoryRestResource
-public interface ConferenceRepository extends CrudRepository<Conference, Long> {
-    Optional<List<Conference>> findByName(String name);
+public interface SubscriptionTypeRepository extends CrudRepository<SubscriptionType, Long> {
 
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public <S extends Conference> S save(S entity);
+    public <S extends SubscriptionType> S save(S entity);
 
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public <S extends Conference> Iterable<S> saveAll(Iterable<S> entities);
+    public <S extends SubscriptionType> Iterable<S> saveAll(Iterable<S> entities);
 
 
     @Override
-    public Optional<Conference> findById(Long aLong);
+    public Optional<SubscriptionType> findById(Long aLong);
 
 
     @Override
@@ -34,11 +33,11 @@ public interface ConferenceRepository extends CrudRepository<Conference, Long> {
 
 
     @Override
-    public Iterable<Conference> findAll();
+    public Iterable<SubscriptionType> findAll();
 
 
     @Override
-    public Iterable<Conference> findAllById(Iterable<Long> longs);
+    public Iterable<SubscriptionType> findAllById(Iterable<Long> longs);
 
 
     @Override
@@ -51,12 +50,12 @@ public interface ConferenceRepository extends CrudRepository<Conference, Long> {
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public void delete(Conference entity);
+    public void delete(SubscriptionType entity);
 
 
     @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public void deleteAll(Iterable<? extends Conference> entities);
+    public void deleteAll(Iterable<? extends SubscriptionType> entities);
 
 
     @PreAuthorize("hasRole('ADMIN')")

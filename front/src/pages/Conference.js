@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { api } from '../services/api'
+import { withRouter } from 'react-router-dom'
 
 import {
   Header,
@@ -8,27 +10,28 @@ import {
   Grid,
 } from 'semantic-ui-react'
 
+
 import ConferenceFormSubscription from '../components/ConferenceFormSubscription'
 
-const conferenceExample = {
-  id: 1,
-  title: 'Title conf',
-  description: 'Conférence sur le climat'
-}
-
-const Conference = ({ id }) => {
+const Conference = ({ history, location }) => {
   console.log("Executed Conf")
 
-
+  const uri  = location.search.split("=")[1]
   const [ conference, setConference ] = useState({})
 
-  useEffect( () => {
-    //Appel api
-    setTimeout(() => {
-      setConference(conferenceExample)
-    }, 5000)
+  console.log(location)
 
-  }, [])
+
+  useEffect( () => {
+    api.get(uri)
+      .then(({ data }) => {
+      setConference(data)
+        console.log(data)
+    })
+    .catch( err => {
+      history.push('/')
+    })
+  }, [uri, history])
 
   return (
     <Grid verticalAlign='middle' textAlign='center' centered columns={1} style={{height: '100vh', margin: '1em'}} >
@@ -52,17 +55,18 @@ const Conference = ({ id }) => {
               </Step>
             </Step.Group>
             <Header as='h2' textAlign='center'>
-              { conference.title }
+              { conference.name }
               <Header.Subheader>
                 {conference.description }
               </Header.Subheader>
             </Header>
-            <ConferenceFormSubscription id={ conference.id }/>
-
+            <ConferenceFormSubscription 
+              conference={conference}
+            />
           </Container>
         </Grid.Column>
     </Grid>
   )
 }
 
-export default Conference
+export default withRouter(Conference)

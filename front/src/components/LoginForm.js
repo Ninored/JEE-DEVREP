@@ -7,6 +7,7 @@ import {
 import { withRouter } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useAppContext } from '../context'
+import { credentials } from '../services/api'
 
 const LoginForm = ({ history }) => {
 
@@ -22,6 +23,8 @@ const LoginForm = ({ history }) => {
         password: values.password
       }
     })
+    credentials.usename = values.email
+    credentials.password = values.password
     history.push('/admin')
   }
 

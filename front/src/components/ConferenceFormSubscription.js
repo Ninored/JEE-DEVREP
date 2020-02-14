@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { api, API_SUBSCRIPTION } from '../services/api'
 
 import {
   Form,
   Button,
+  Message
 } from 'semantic-ui-react'
 
 import { useForm, Controller } from 'react-hook-form'
@@ -16,35 +18,55 @@ const titleOptions = [
   { key: 'Mr.', text: 'Mr.', value: 'Mr' },
 ]
 
-const subscriptionTypeOptions = [
-  { key: 1 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T-MorT:180' },
-  { key: 2 , text: 'Workshop / Tutrial 2-Day Pass (Monday and Tuesday) : 280€', value: 'W/T-MandT:280' },
-  { key: 3 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' },
-  { key: 4 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' },
-  { key: 5 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' },
-  { key: 6 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' },
-  { key: 7 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' },
-  { key: 8 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' },
-  { key: 9 , text: 'Workshop / Tutrial 1-Day Pass (Monday or Tuesday) : 180€', value: 'W/T:180' }
-]
 
-const ConferenceFormSubscription = ({ history }) => {
+const ConferenceFormSubscription = ({ history, location, conference}) => {
 
+  const uri  = location.search.split("=")[1]
   const { handleSubmit, errors, control} = useForm()
-
   const [ sending, setSending ] = useState(false)
+  const [ subscriptionType, setSubscriptionType ] = useState([])
+  const [ postError, setPostError ] = useState('')
+
+  useEffect(() => {
+    if(conference._links)
+    api.get(conference._links.subscriptionTypes.href)
+      .then(({data}) => {
+        console.log(data)
+        const res = data._embedded.subscriptionTypes.map((s) => {return {
+          key: s._links.self.href,
+          value: s._links.self.href,
+          text: s.name
+        }})
+        setSubscriptionType(res)
+      })
+  }, [conference])
+
 
   const onSubmit = values => {
     setSending(true)
+    const payload = {
+      conference: uri,
+      ...values
+    }
     console.log(values)
-    setTimeout( () => {
+    api.post(API_SUBSCRIPTION, payload).then(res =>{
       history.push('/subscription/registered', { state: { fromSubscription: true }})
-      
-    }, 3000)
+    }).catch( err => {
+      console.log(err)
+      setPostError("Please contact the administrator")
+      setSending(false)
+    })
   }
 
   return (
     <Form loading={sending} onSubmit={handleSubmit(onSubmit)}>
+      { postError !== '' && 
+      <Message 
+        error
+        header="Error while submiting your subscription"
+        content={postError}
+      />
+      }
       <Form.Group widths='equal'>
         <Controller 
           error={!!errors.title ?  errors.title.message : false } 
@@ -60,7 +82,7 @@ const ConferenceFormSubscription = ({ history }) => {
           error={!!errors.firstname ?  errors.firstname.message : false } 
           as={Form.Input}
           control={control}
-          name='firstname'
+          name='firstName'
           label='First Name'
           placeholder='First Name'
           defaultValue=''
@@ -70,7 +92,7 @@ const ConferenceFormSubscription = ({ history }) => {
           error={!!errors.firstname ?  errors.firstname.message : false } 
           as={Form.Input}
           control={control}
-          name='lastname'
+          name='lastName'
           label='Last Name'
           placeholder='Last Name'
           defaultValue=''
@@ -116,7 +138,13 @@ const ConferenceFormSubscription = ({ history }) => {
           label='Zip'
           placeholder='Zip'
           defaultValue=''
-          rules={{required: 'Zip required.' }}
+          rules={{
+            required: 'Zip required.' ,
+            pattern: {
+              value: /^[0-9]*$/i,
+              messsage: "Invalide zip code"
+            }
+          }}
         />
         <Controller 
           error={!!errors.country ?  errors.country.message : false } 
@@ -163,11 +191,11 @@ const ConferenceFormSubscription = ({ history }) => {
       />
       <Controller 
         error={!!errors.type ?  errors.type.message : false } 
-        as={<Form.Select options={subscriptionTypeOptions} />}
+        as={<Form.Select options={subscriptionType} />}
         control={control}
-        name='type'
-        label='Type'
-        placeholder='Type'
+        name='subscriptionType'
+        label='Subscription Type'
+        placeholder='Subscription Type'
         onChange={ ([_, { value }]) => value } 
         rules={{
           required: 'Subscription type is required',

@@ -1,20 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Grid
 } from 'semantic-ui-react'
 
+import { api, API_REPO_CONFERENCE } from '../services/api'
 import ConferenceCard from './ConferenceCard'
 
-const conferences = [
-  { id: 1, title: "Conf 1", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 2, title: "Conf 2", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 3, title: "Conf 3", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 4, title: "Conf 4", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 5, title: "Conf 5", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 6, title: "Conf 6", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 7, title: "Conf 7", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-  { id: 8, title: "Conf 8", description: "Conférence sur le climant et les changements que cela implique", link: "link conf" },
-]
 
 const style = {
   margin: "2em"
@@ -22,8 +13,21 @@ const style = {
 
 const ConferenceGrid = () => {
 
+  const [ conferences, setConferences ] = useState([])
+
+  useEffect(() => {
+    api.get(API_REPO_CONFERENCE)
+      .then( ({ data }) => {
+        console.log(data)
+        setConferences(data._embedded.conferences)
+      })
+      .catch( err => {
+        console.log(err)
+      })
+  }, [])
+
   const cc = conferences.map( c =>
-    <Grid.Column key={c.id}>
+    <Grid.Column key={c._links.self.href}>
       <ConferenceCard conference={c} />
     </Grid.Column>
   )

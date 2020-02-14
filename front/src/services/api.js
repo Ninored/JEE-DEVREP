@@ -1,10 +1,22 @@
 import axios from 'axios'
 
-const baseURL = 'localhost:8081'
-const instance = axios.create({
-  baseURL,
+
+export let credentials = {
+  username: '',
+  password: ''
+}
+
+const URL = 'http://localhost:8080'
+export const aapi = axios.create({
+  baseURL: URL,
+  auth: credentials
 })
 
-export const API_UTILISATEUR = 'utilisateurs'
+export const api = axios.create({
+  baseURL: URL
+})
 
-export default instance
+export const API_REPO_CONFERENCE = '/datarest/conferences'
+export const API_REPO_SUBSCRIPTION = '/datarest/subscriptions'
+export const API_REPO_SUBSCRIPTION_TYPE = '/datarest/subscriptionTypes'
+export const API_SUBSCRIPTION = '/subscription'

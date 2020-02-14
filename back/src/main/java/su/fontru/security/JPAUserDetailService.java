@@ -22,8 +22,7 @@ public class JPAUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account user = users.findByUsername(username);
-        if( user == null ) throw new UsernameNotFoundException(username);
+        Account user = users.findByUsername(username).orElseThrow(() ->  new UsernameNotFoundException(username));
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         String[] roles = user.getRoles().split(";");

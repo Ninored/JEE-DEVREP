@@ -23,9 +23,9 @@ public class Conference {
   private Date lateRegistration;
 
   @OneToMany
-  private List<InscriptionType> inscriptionTypes;
+  private List<SubscriptionType> subscriptionTypes;
 
   @OneToMany
-  private List<Inscription> inscriptions;
+  private List<Subscription> subscriptions;
 
 }
