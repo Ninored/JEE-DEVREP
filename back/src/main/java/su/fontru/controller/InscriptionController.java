@@ -21,7 +21,7 @@ public class InscriptionController {
 	@Autowired
     private InscriptionRepository repository;
 	
-
+	
 	@GetMapping("/inscription")
     public Object[] getInscription() {
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

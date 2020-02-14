@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,11 +19,8 @@ public class Conference {
   private long id;
 
   private String name;
-
-  @Temporal(TemporalType.DATE)
-  private LocalDate earlyRegistration;
-  @Temporal(TemporalType.DATE)
-  private LocalDate lateRegistration;
+  private Date earlyRegistration;
+  private Date lateRegistration;
 
   @OneToMany
   private List<InscriptionType> inscriptionTypes;
