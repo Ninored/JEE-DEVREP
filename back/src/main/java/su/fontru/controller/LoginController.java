@@ -1,7 +1,7 @@
 package su.fontru.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ public class LoginController {
     AccountRepository accounts;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Resource<Account> account) {
+    public ResponseEntity<String> login(@RequestBody EntityModel<Account> account) {
         Account found = accounts.findByUsername(account.getContent().getUsername()).orElseThrow( () ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Username not found")
         );

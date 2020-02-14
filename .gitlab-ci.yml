@@ -13,7 +13,8 @@ services:
   - docker:19.03.1-dind
 
 variables:
-  CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+  FRONT_CONTAINER_IMAGE: FRONT_${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+  BACK_CONTAINER_IMAGE: BACK_${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
 
 build_website:
   stage: build
@@ -26,14 +27,35 @@ build_website:
     paths:
       - /front/public
 
-build_docker:
+build_back:
+  stage: build
+  image: gradle:latest
+  script:
+    - cd back
+    - sed -i "s~spring.datasource.url.*~spring.datasource.url=jdbc:postgresql://db:5432/jee~g" back/src/main/resources/application.properties
+    - gradle build
+  artifacts:
+    paths:
+      - back/build/libs/
+
+
+build_docker_front:
+  stage: image
+  only:
+    - master
+  script:
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker build -t $FRONT_CONTAINER_IMAGE front/
+    - docker push $FRONT_CONTAINER_IMAGE
+
+build_docker_back:
   stage: image
   only:
     - master
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     - docker build -t $CONTAINER_IMAGE front/
-    - docker push $CONTAINER_IMAGE
+    - docker push $BACK_CONTAINER_IMAGE
 
 deploy_staging:
   stage: deploy_staging
@@ -49,8 +71,10 @@ deploy_staging:
     - mkdir -p $HOME/.kube/
     - echo -n $KUBE_CONFIG | base64 -d > $HOME/.kube/config
     - kubectl config view
-    - sed -i "s~<CONTAINER_NAME>~\"$CONTAINER_IMAGE\"~g" deployment.yaml
+    - sed -i "s~<FRONT_CONTAINER_NAME>~\"$FRONT_CONTAINER_IMAGE\"~g" deployment.yaml
+    - sed -i "s~<BACK_CONTAINER_NAME>~\"$BACK_CONTAINER_IMAGE\"~g" deployment.yaml
     - sed -i "s~<DOMAIN>~devrep.staging.ninored.ovh~g" deployment.yaml
+    - sed -i "s~<APIDOMAIN>~devrep.api.staging.ninored.ovh~g" deployment.yaml
     - sed -i "/cert-manager/d" deployment.yaml
     - cat deployment.yaml
     - kubectl apply -f deployment.yaml

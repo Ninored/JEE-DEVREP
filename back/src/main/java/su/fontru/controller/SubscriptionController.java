@@ -2,7 +2,7 @@ package su.fontru.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +33,7 @@ public class SubscriptionController {
 
 
 	@PostMapping("/subscription")
-    public ResponseEntity<String> postInscription(@RequestBody Resource<Subscription> subscription) throws Exception {
+    public ResponseEntity<String> postInscription(@RequestBody EntityModel<Subscription> subscription) throws Exception {
 	    /* Getting en inscription */
 
         // Check conference

@@ -7,16 +7,14 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.1.12.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 
     // Apply the java plugin to add support for Java
     id 'java'
+    id 'application'
 
     // Apply the application plugin to add support for building a CLI application.
-    id 'application'
-    id 'war'
-    id 'ear'
     id 'eclipse'
     id 'eclipse-wtp'
 }
@@ -28,9 +26,9 @@ repositories {
     mavenCentral()
 }
 
-//application {
-//  mainClassName = "su.fontru.RestAPI"
-//}
+application {
+  mainClassName = "su.fontru.RestAPI"
+}
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -38,6 +36,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-rest'
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation 'org.springframework.boot:spring-boot-starter-mail'
+  implementation 'org.springframework.boot:spring-boot-starter-hateoas'
   
   compileOnly 'org.projectlombok:lombok'
   runtimeOnly 'org.postgresql:postgresql'
@@ -56,33 +55,3 @@ test {
   useJUnitPlatform()
 }
 
-war { 
-  from 'src/main/java' 
-}
-
-ear {
-  appDirName 'src/main/java'
-  libDirName ''
-  deploymentDescriptor {  // custom entries for application.xml:
-//      fileName = "application.xml"  // same as the default value
-//      version = "6"  // same as the default value
-        applicationName = "ejbTest"
-        initializeInOrder = true
-        displayName = "EJB TEST"  // defaults to project.name
-        // defaults to project.description if not set
-        description = "EJB de teste"
-//      libraryDirectory = "APP-INF/lib"  // not needed, above libDirName setting does this
-//      module("my.jar", "java")  // won't deploy as my.jar isn't deploy dependency
-//      webModule("my.war", "/")  // won't deploy as my.war isn't deploy dependency
-        /*
-        securityRole "admin"
-        securityRole "superadmin"
-        */
-        /*
-        withXml { provider -> // add a custom node to the XML
-            provider.asNode().appendNode("data-source", "my/data/source")
-        }
-        */
-  }
-
-}
