@@ -5,7 +5,6 @@ import {
   Button,
   Table,
   Header,
-  Input,
   Modal,
   Segment
 } from 'semantic-ui-react'
