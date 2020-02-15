@@ -39,7 +39,7 @@ metadata:
   name: devrep-service-db
 spec:
   selector:
-    app: devrep-front
+    app: devrep
   ports:
     - protocol: TCP
       port: 5432
@@ -52,7 +52,7 @@ metadata:
   name: devrep-service-front
 spec:
   selector:
-    app: devrep-front
+    app: devrep
   ports:
     - protocol: TCP
       port: 80
@@ -64,7 +64,7 @@ metadata:
   name: devrep-service-back
 spec:
   selector:
-    app: devrep-back
+    app: devrep
   ports:
     - protocol: TCP
       port: 80
