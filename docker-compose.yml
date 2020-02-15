@@ -1,5 +1,15 @@
 version: "3"
 services:
+  back:
+    build: back/
+    ports:
+      - "3000:3000"
+
+  front:
+    build: front/
+    ports:
+      - "8080:80"
+
   db:
     image: postgres:latest
     ports:

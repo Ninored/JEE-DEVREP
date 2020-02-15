@@ -23,6 +23,13 @@ spec:
           - containerPort: 8080
       - name: db
         image: postgres
+        env:
+        - name: POSTGRES_DB
+          value: "jee"
+        - name: POSTGRES_USER
+          value: "db"
+        - name: POSTGRES_PASSWORD
+          value: "db"
         ports:
           - containerPort: 5432
 ---
