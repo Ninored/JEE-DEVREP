@@ -29,6 +29,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: devrep-service-db
+spec:
+  selector:
+    app: devrep-front
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: devrep-service-front
 spec:
   selector:

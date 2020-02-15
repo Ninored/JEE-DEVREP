@@ -15,6 +15,8 @@ services:
 variables:
   FRONT_CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:front${CI_COMMIT_SHORT_SHA}
   BACK_CONTAINER_IMAGE: ${CI_REGISTRY_IMAGE}:back${CI_COMMIT_SHORT_SHA}
+  API_URL: devrep-api.staging.ninored.ovh
+  WEB_URL: devrep.staging.ninored.ovh
 
 build_website:
   stage: build
@@ -22,6 +24,7 @@ build_website:
   script:
     - cd front
     - npm install
+    - export REACT_APP_API_URL=${API_URL}
     - npm run build
   artifacts:
     paths:
@@ -32,7 +35,7 @@ build_back:
   image: gradle:latest
   script:
     - cd back
-    - sed -i "s~spring.datasource.url.*~spring.datasource.url=jdbc:postgresql://db:5432/jee~g" src/main/resources/application.properties
+    - sed -i "s~spring.datasource.url.*~spring.datasource.url=jdbc:postgresql://devrep-service-db:5432/jee~g" src/main/resources/application.properties
     - gradle build
   artifacts:
     paths:
@@ -45,7 +48,7 @@ build_docker_front:
     - master
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker build -t $FRONT_CONTAINER_IMAGE front/
+    - docker build --build-arg REACT_APP_API_URL=${API_URL} -t $FRONT_CONTAINER_IMAGE front/
     - docker push $FRONT_CONTAINER_IMAGE
 
 build_docker_back:
