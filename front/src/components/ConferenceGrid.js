@@ -3,7 +3,7 @@ import {
   Grid
 } from 'semantic-ui-react'
 
-import { api, API_REPO_CONFERENCE } from '../services/api'
+import { api, API_CONFERENCES } from '../services/api'
 import ConferenceCard from './ConferenceCard'
 
 
@@ -16,10 +16,9 @@ const ConferenceGrid = () => {
   const [ conferences, setConferences ] = useState([])
 
   useEffect(() => {
-    api.get(API_REPO_CONFERENCE)
+    api.get(API_CONFERENCES)
       .then( ({ data }) => {
-        console.log(data)
-        setConferences(data._embedded.conferences)
+        setConferences(data)
       })
       .catch( err => {
         console.log(err)
@@ -27,7 +26,7 @@ const ConferenceGrid = () => {
   }, [])
 
   const cc = conferences.map( c =>
-    <Grid.Column key={c._links.self.href}>
+    <Grid.Column key={c.id}>
       <ConferenceCard conference={c} />
     </Grid.Column>
   )

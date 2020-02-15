@@ -5,12 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Entity
 public class Conference {
 
@@ -22,10 +20,59 @@ public class Conference {
   private Date earlyRegistration;
   private Date lateRegistration;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<SubscriptionType> subscriptionTypes;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Subscription> subscriptions;
 
+  public Conference() {}
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Date getEarlyRegistration() {
+    return earlyRegistration;
+  }
+
+  public void setEarlyRegistration(Date earlyRegistration) {
+    this.earlyRegistration = earlyRegistration;
+  }
+
+  public Date getLateRegistration() {
+    return lateRegistration;
+  }
+
+  public void setLateRegistration(Date lateRegistration) {
+    this.lateRegistration = lateRegistration;
+  }
+
+  public List<SubscriptionType> getSubscriptionTypes() {
+    return subscriptionTypes;
+  }
+
+  public void setSubscriptionTypes(List<SubscriptionType> subscriptionTypes) {
+    this.subscriptionTypes = subscriptionTypes;
+  }
+
+  public List<Subscription> getSubscriptions() {
+    return subscriptions;
+  }
+
+  public void setSubscriptions(List<Subscription> subscriptions) {
+    this.subscriptions = subscriptions;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 }

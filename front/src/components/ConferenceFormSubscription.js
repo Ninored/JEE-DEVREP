@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
-import { api, API_SUBSCRIPTION } from '../services/api'
+import { withRouter, useParams } from 'react-router-dom'
+import { api, API_CONFERENCES , API_SUBSCRIPTION} from '../services/api'
 
 import {
   Form,
@@ -21,37 +21,40 @@ const titleOptions = [
 
 const ConferenceFormSubscription = ({ history, location, conference}) => {
 
-  const uri  = location.search.split("=")[1]
+  const { id }  = useParams()
   const { handleSubmit, errors, control} = useForm()
   const [ sending, setSending ] = useState(false)
   const [ subscriptionType, setSubscriptionType ] = useState([])
   const [ postError, setPostError ] = useState('')
 
   useEffect(() => {
-    if(conference._links)
-    api.get(conference._links.subscriptionTypes.href)
+    if(conference)
+    api.get(`${API_CONFERENCES}/${id}`)
       .then(({data}) => {
         console.log(data)
-        const res = data._embedded.subscriptionTypes.map((s) => {return {
-          key: s._links.self.href,
-          value: s._links.self.href,
+        const res = data.subscriptionTypes.map((s) => {return {
+          key: s.name,
+          value: s.id,
           text: s.name
         }})
         setSubscriptionType(res)
       })
-  }, [conference])
+  }, [conference, id])
 
 
   const onSubmit = values => {
     setSending(true)
     const payload = {
-      conference: uri,
-      ...values
+      conference: { id: id },
+      ...values,
+      subscriptionType: {id: values.subscriptionType }
     }
-    console.log(values)
+    console.log(payload)
     api.post(API_SUBSCRIPTION, payload).then(res =>{
+
       history.push('/subscription/registered', { state: { fromSubscription: true }})
     }).catch( err => {
+      history.push('/subscription/registered', { state: { fromSubscription: true }})
       console.log(err)
       setPostError("Please contact the administrator")
       setSending(false)

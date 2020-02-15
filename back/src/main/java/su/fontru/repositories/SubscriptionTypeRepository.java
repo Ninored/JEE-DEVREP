@@ -10,16 +10,15 @@ import su.fontru.model.SubscriptionType;
 import java.util.Optional;
 
 /* REST available */
-@RepositoryRestResource
 public interface SubscriptionTypeRepository extends CrudRepository<SubscriptionType, Long> {
 
+    public Optional<SubscriptionType> findByName(String name);
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @Override
     public <S extends SubscriptionType> S save(S entity);
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public <S extends SubscriptionType> Iterable<S> saveAll(Iterable<S> entities);
 
@@ -43,22 +42,18 @@ public interface SubscriptionTypeRepository extends CrudRepository<SubscriptionT
     @Override
     public long count();
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void deleteById(Long aLong);
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void delete(SubscriptionType entity);
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void deleteAll(Iterable<? extends SubscriptionType> entities);
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void deleteAll();
 }

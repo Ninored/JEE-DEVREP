@@ -15,9 +15,6 @@ public class SubscriptionType {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @OneToOne
-  private Conference conference;
-
   private String name;
   private String earlyPrice;
   private String latePrice;
@@ -52,5 +49,13 @@ public class SubscriptionType {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 }

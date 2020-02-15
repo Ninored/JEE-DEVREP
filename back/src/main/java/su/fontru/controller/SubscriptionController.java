@@ -14,17 +14,26 @@ import org.springframework.web.server.ResponseStatusException;
 import su.fontru.model.Subscription;
 import su.fontru.repositories.ConferenceRepository;
 import su.fontru.repositories.SubscriptionRepository;
+import su.fontru.repositories.SubscriptionTypeRepository;
+import su.fontru.service.IMailSender;
+import su.fontru.service.MailSender;
 
 import java.util.Optional;
 
 @RestController
 public class SubscriptionController {
-	
-	@Autowired
+
+    @Autowired
     private SubscriptionRepository subscriptionRepository;
 
-	@Autowired
-	private ConferenceRepository conferenceRepository;
+    @Autowired
+    private SubscriptionTypeRepository subscriptionTypeRepository;
+
+    @Autowired
+    private ConferenceRepository conferenceRepository;
+
+    @Autowired
+    private IMailSender mailsender;
 
 	/*
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -32,26 +41,44 @@ public class SubscriptionController {
 	 */
 
 
-	@PostMapping("/subscription")
-    public ResponseEntity<String> postInscription(@RequestBody EntityModel<Subscription> subscription) throws Exception {
-	    /* Getting en inscription */
+    @PostMapping("/subscription")
+    public Subscription postInscription(@RequestBody Subscription subscription) throws Exception {
+        /* Getting en inscription */
 
+        subscription.setConference(
+                conferenceRepository.findById(
+                        subscription.getConference().getId()
+                ).orElseThrow( () ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "not found")
+                ));
+
+        subscription.setSubscriptionType(
+                subscriptionTypeRepository.findById(
+                        subscription.getSubscriptionType().getId()
+                ).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "not found")
+                )
+        );
         // Check conference
-        subscriptionRepository.save(subscription.getContent());
+        subscriptionRepository.save(subscription);
 
-	    return ResponseEntity.ok("Subscription registered");
+        return subscription;
+        //    return ResponseEntity.ok("Subscription registered");
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-	@GetMapping("/subscription/validate")
-    public ResponseEntity<String> validateInscription(@RequestParam Long id) {
-	    /* Get subscription */
+    @GetMapping("/subscription/validate/{id}")
+    public ResponseEntity<String> validateInscription(@PathVariable Long id) {
+        /* Get subscription */
         Subscription subscription = subscriptionRepository.findById(id).orElseThrow( () ->
-            new ResponseStatusException(HttpStatus.NOT_FOUND, "Subscription not found")
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Subscription not found")
         );
 
         /* Validate Subscription */
         subscription.setValidated(true);
+        subscriptionRepository.save(subscription);
+
+        mailsender.send(subscription.getEmail(), subscription.getId());
 
 
         return ResponseEntity.ok("Subscription validated");
@@ -63,5 +90,5 @@ public class SubscriptionController {
         subscriptionRepository.deleteById(id);
         return ResponseEntity.ok("Subscription deleted");
     }
-	
+
 }

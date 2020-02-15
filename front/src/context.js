@@ -1,8 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react'
 
 const AppState = {
-  username: '',
-  password: '',
   authenticated: false
 }
 
@@ -11,8 +9,6 @@ const AppReducer = (state, action) => {
   case 'loggedIn': 
     return {
       ...state,
-      username: action.value.username,
-      password: action.value.password,
       authenticated: true
     }
   default: 

@@ -13,6 +13,9 @@ import java.util.Optional;
 
 @RepositoryRestResource
 public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
+
+    public Iterable<Subscription> findAllByConferenceId(Long aLong);
+
     @Override
     public <S extends Subscription> S save(S entity);
 

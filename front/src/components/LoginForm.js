@@ -13,34 +13,29 @@ import { credentials , api, API_LOGIN} from '../services/api'
 const LoginForm = ({ history }) => {
 
   const { handleSubmit, errors, control} = useForm()
-  const [ loginError, setLoginError ] = useState('')
-  const [ ,dispatch] = useAppContext()
+  const [ loginError, setLoginError ] = useState(false)
+  const [ , dispatch] = useAppContext()
 
-  const onSubmit = (values) => {
-    api.post(API_LOGIN, {
+  const onSubmit = async (values) => {
+    await api.post(API_LOGIN, {}, { auth: {
       username: values.email,
       password: values.password
-    }).then( () => {
-       dispatch({ type: 'loggedIn' })
+    }}).then( (data) => {
+      dispatch({ type: 'loggedIn' })
+      history.push('/admin')
       credentials.username = values.email
       credentials.password = values.password
     }).catch(err => {
-      console.log(err)
-        setLoginError('User not found')
+      setLoginError(true)
     })
-    console.log(values)
-   
-    credentials.usename = values.email
-    credentials.password = values.password
-    history.push('/admin')
   }
 
   return(
-    <Form error={loginError !=='' } size='large' onSubmit={handleSubmit(onSubmit)}>
+    <Form error={loginError} size='large' onSubmit={handleSubmit(onSubmit)}>
       <Message
         error
         header="Connection failed"
-        content={loginError}
+        content="Invalide credentials"
       />
       <Segment stacked>
         <Controller 

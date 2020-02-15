@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { api } from '../services/api'
-import { withRouter } from 'react-router-dom'
+import { api , API_CONFERENCES} from '../services/api'
+import { withRouter, useParams } from 'react-router-dom'
 
 import {
   Header,
@@ -16,14 +16,14 @@ import ConferenceFormSubscription from '../components/ConferenceFormSubscription
 const Conference = ({ history, location }) => {
   console.log("Executed Conf")
 
-  const uri  = location.search.split("=")[1]
+  const { id } = useParams()
   const [ conference, setConference ] = useState({})
 
   console.log(location)
 
 
   useEffect( () => {
-    api.get(uri)
+    api.get(`${API_CONFERENCES}/${id}`)
       .then(({ data }) => {
       setConference(data)
         console.log(data)
@@ -31,7 +31,7 @@ const Conference = ({ history, location }) => {
     .catch( err => {
       history.push('/')
     })
-  }, [uri, history])
+  }, [id, history])
 
   return (
     <Grid verticalAlign='middle' textAlign='center' centered columns={1} style={{height: '100vh', margin: '1em'}} >

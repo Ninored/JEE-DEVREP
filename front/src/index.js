@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import 'semantic-ui-css/semantic.min.css'
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+
 import { AppContextProvider } from './context'
 
 ReactDOM.render(<AppContextProvider><App /></AppContextProvider>, document.getElementById('root'));

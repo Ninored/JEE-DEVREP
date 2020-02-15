@@ -36,6 +36,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .httpBasic()
+                .and()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.DELETE, "/conferences/{\\d+}").hasRole("ADMIN")
                 /*.and()
                 .authorizeRequests()
                     .antMatchers("/datarest/subscriptionTypes").hasRole("ADMIN")
@@ -43,6 +46,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
                  */
                 .and()
+//.cors().disable()
                 .csrf().disable();
         /*
         http

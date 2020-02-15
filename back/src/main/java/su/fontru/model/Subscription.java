@@ -46,11 +46,10 @@ public class Subscription implements Serializable {
   private boolean validated;
 
   @NotNull
-  @ManyToOne()
+  @ManyToOne
   private SubscriptionType subscriptionType;
 
-  public Subscription() {
-  }
+  public Subscription() { }
 
   public String getTitle() {
     return title;
@@ -154,5 +153,13 @@ public class Subscription implements Serializable {
 
   public void setConference(Conference conference) {
     this.conference = conference;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 }

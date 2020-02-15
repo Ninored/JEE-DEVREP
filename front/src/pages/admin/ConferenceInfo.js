@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter, useParams } from 'react-router-dom'
+import { api, credentials, API_CONFERENCES_SUBSCRIPTIONS, API_CONFERENCES, API_SUBSCRIPTION_VALIDATE } from '../../services/api'
 import {
   Container,
   Segment,
@@ -8,34 +10,43 @@ import {
 } from 'semantic-ui-react'
 
 
-const inscript = [
-  { email: 'afe@fr.fr', validated: true },
-  { email: 'afe@fr.fr', validated: true },
-  { email: 'afe@fr.fr', validated: true },
-  { email: 'afe@fr.fr', validated: true },
-  { email: 'afe@fr.fr', validated: true },
-  { email: 'afe@fr.fr', validated: true },
-]
-
 const ConferenceInfo = () => {
 
   const [conference, setConference] = useState({})
+  const [subscriptions, setSubscriptions] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const { id } = useParams()
+
+
   useEffect( () => {
-    setConference({
-      title: "Titre",
-      description: "Descriptoin"
-    })
 
-  }, [])
+    api.get(`${API_CONFERENCES_SUBSCRIPTIONS}/${id}`, {auth: credentials})
+      .then(({data}) => {
+        console.log(data)
+        setSubscriptions(data)    
+      })
 
-  const row = inscript.map(c =>
+    api.get(`${API_CONFERENCES}/${id}`)
+      .then(({data}) => {
+        console.log(data)
+        setConference(data)    
+      })
+
+  }, [id, refresh])
+
+  const handleValidate = (id) => {
+    api.get(`${API_SUBSCRIPTION_VALIDATE}/${id}`, { auth: credentials }).then(() => setRefresh(!refresh))
+  }
+
+
+  const row = subscriptions.map(c =>
     <Table.Row>
       <Table.Cell textAlign='center'>
-        <Header as='h4' content={c.email} />
+        <Header as='h4' content={`${c.email}${c.validated? ' (Validated) ' : '' }`} />
       </Table.Cell>
       <Table.Cell textAlign='right' collapsing>
         <Button.Group >
-          <Button icon='check' />
+          { !c.validated && <Button icon='check' onClick={() => handleValidate(c.id)} /> }
           <Button color="red" icon='delete' />
           <Button color="blue" icon='download' />
         </Button.Group>
@@ -66,4 +77,4 @@ const ConferenceInfo = () => {
   )
 }
 
-export default ConferenceInfo
+export default withRouter(ConferenceInfo)

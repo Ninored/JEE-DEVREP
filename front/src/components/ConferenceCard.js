@@ -27,7 +27,7 @@ const ConferenceCard = ({ conference: conf}) => {
         <Card.Description>{conf.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Button as={Link} to={`/subscription?uri=${conf._links.self.href}`}>Registration</Button>
+        <Button as={Link} to={`/subscription/${conf.id}`}>Registration</Button>
       </Card.Content>
     </Card>
   )

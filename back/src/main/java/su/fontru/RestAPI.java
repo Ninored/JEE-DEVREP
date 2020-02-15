@@ -20,12 +20,17 @@ public class RestAPI {
 	}
 
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*");
-			}
+	public CommandLineRunner initSubscriptionType(SubscriptionTypeRepository str, BCryptPasswordEncoder passwordEncoder) {
+		return args -> {
+
+			if(str.count() != 0)
+				return;
+
+			str.deleteAll();
+
+		    str.save(new SubscriptionType("type1", "200", "300"));
+			str.save(new SubscriptionType("type2", "400", "600"));
+			str.save(new SubscriptionType("type3", "800", "900"));
 		};
 	}
 
