@@ -18,8 +18,7 @@ const ConferenceGrid = () => {
   useEffect(() => {
     api.get(API_CONFERENCES)
       .then( ({ data }) => {
-        if(data)
-          setConferences(data)
+        setConferences(data)
       })
       .catch( err => {
         console.log(err)
