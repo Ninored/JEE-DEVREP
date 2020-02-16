@@ -36,6 +36,7 @@ build_back:
   script:
     - cd back
     - sed -i "s~spring.datasource.url.*~spring.datasource.url=jdbc:postgresql://devrep-service-db:5432/jee~g" src/main/resources/application.properties
+    - cat src/main/resources/application.properties
     - gradle build
   artifacts:
     paths:
