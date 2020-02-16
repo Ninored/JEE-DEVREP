@@ -24,7 +24,7 @@ build_website:
   script:
     - cd front
     - npm install
-    - export REACT_APP_API_URL=https://${API_URL}
+    - export REACT_APP_API_URL=${API_URL}
     - npm run build
   artifacts:
     paths:
