@@ -1,26 +1,82 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: devrep
+    name: devrep-front
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: devrep
+      app: devrep-front
   template:
     metadata:
       labels:
-        app: devrep
+        app: devrep-front
     spec:
       containers:
       - name: devrep-front
         image: <FRONT_CONTAINER_NAME>
         ports:
         - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devrep-service-front
+spec:
+  selector:
+    app: devrep-front
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: devrep-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devrep-back
+  template:
+    metadata:
+      labels:
+        app: devrep-back
+    spec:
+      containers:
       - name: devrep-back
         image: <BACK_CONTAINER_NAME>
         ports:
           - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devrep-service-back
+spec:
+  selector:
+    app: devrep-back
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: devrep-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devrep-db
+  template:
+    metadata:
+      labels:
+        app: devrep-db
+    spec:
+      containers:
       - name: db
         image: postgres
         env:
@@ -39,37 +95,12 @@ metadata:
   name: devrep-service-db
 spec:
   selector:
-    app: devrep
+    app: devrep-db
   ports:
     - protocol: TCP
       port: 5432
       targetPort: 5432
 ---
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: devrep-service-front
-spec:
-  selector:
-    app: devrep
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: devrep-service-back
-spec:
-  selector:
-    app: devrep
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
---- 
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
